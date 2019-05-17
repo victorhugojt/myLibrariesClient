@@ -1,9 +1,9 @@
 const path = require('path');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
-const { Pact } = require("./node_modules/@pact-foundation/pact")
-const TypedValueServiceClient = require('../TypedValueServiceClient');
-const TypedValue = require('../TypedValue');
+const { Pact } = require('@pact-foundation/pact')
+const TypedValueServiceClient = require('../src/TypedValueServiceClient');
+const TypedValue = require('../src/TypedValue');
 
 const expect = chai.expect;
 
@@ -12,19 +12,20 @@ const BASE_URL = 'http://localhost';
 const SERVICE_URL = `${BASE_URL}:${MOCK_SERVER_PORT}`
 
 const expectedBodyTypedValuesList = {
-    posts: [
+    typedValues: [
         {id: 1, typed: '01', value: 'CC', description: 'Cedula'},
         {id: 2, typed: '01', value: 'PS', description: 'Pasaporte'}
     ]
 };
 
 const expectedBodyTypedValueGet = {
-    typedvalue: {id: 1, typed: '01', value: 'CC', description: 'Cedula'}
+    typedValue: {id: 1, typed: '01', value: 'CC', description: 'Cedula'}
 };
 
 chai.use(chaiAsPromised);
 
 describe("Pact", () => {
+  let typedValueServiceClient;
   const provider = new Pact({
       consumer: 'My Libraries Client',
       provider: 'My Libraries Provider',
@@ -33,6 +34,10 @@ describe("Pact", () => {
       dir: path.resolve(process.cwd(), 'pacts'),
       logLevel: "INFO",
       spec: 2,
+  });
+
+  before(async () => {
+    typedValueServiceClient = new TypedValueServiceClient(SERVICE_URL);
   });
 
   context("When there are a list of typed values", () => {
@@ -78,8 +83,8 @@ describe("Pact", () => {
       });
 
       it('successfully receives all Typed Values', (done) => {
-        const typedValueServiceClient = new TypedValueServiceClient(SERVICE_URL);
-        const verificationPromise = typedValueServiceClient.getAllPosts();
+        //const typedValueServiceClient = new TypedValueServiceClient(SERVICE_URL);
+        const verificationPromise = typedValueServiceClient.getAllTypedValues();
         const expectedTypedValues = [
             TypedValue.fromJson(expectedBodyTypedValuesList.typedValues[0]),
             TypedValue.fromJson(expectedBodyTypedValuesList.typedValues[1])
@@ -89,8 +94,8 @@ describe("Pact", () => {
       });
 
       it('successfully receives one Typed Value', (done) => {
-        const typedValueServiceClient = new TypedValueServiceClient(SERVICE_URL);
-        const verificationPromise = typedValueServiceClient.getPostById(1);
+        //const typedValueServiceClient = new TypedValueServiceClient(SERVICE_URL);
+        const verificationPromise = typedValueServiceClient.getTypedValueById(1);
         const expectedTypedValue = TypedValue.fromJson(expectedBodyTypedValueGet.typedValue);
 
         expect(verificationPromise).to.eventually.eql(expectedTypedValue).notify(done);

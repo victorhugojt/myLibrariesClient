@@ -4,6 +4,7 @@ const TypedValue = require('./TypedValue');
 class TypedValueServiceClient {
 
     constructor(endpoint) {
+        console.log("Starting service : ", endpoint);
         this.endpoint = endpoint;
     }
 
@@ -18,7 +19,9 @@ class TypedValueServiceClient {
             request(options, (error, response, body) => {
                 if (!error && response.statusCode == 200) {
                     const parsedBody = JSON.parse(body);
-                    const result = parsedBody.typesValues.map((data) => TypedValue.fromJson(data));
+                    console.log('parsedBody ::::::::: >>>> ');
+                    console.log(parsedBody);
+                    const result = parsedBody.typedValues.map((data) => TypedValue.fromJson(data));
 
                     resolve(result);
                 } else {

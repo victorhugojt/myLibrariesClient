@@ -8,5 +8,4 @@ typedValueServiceClient.getTypedValues()
     })
     .catch((error) => {
         console.log(error);
-    })
-;
+    });

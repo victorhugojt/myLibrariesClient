@@ -1,0 +1,73 @@
+{
+  "consumer": {
+    "name": "My Libraries Client"
+  },
+  "provider": {
+    "name": "My Libraries Provider"
+  },
+  "interactions": [
+    {
+      "description": "a request for all typed values",
+      "providerState": "Has two Typed Values",
+      "request": {
+        "method": "GET",
+        "path": "/typedvalues",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "typedValues": [
+            {
+              "id": 1,
+              "typed": "01",
+              "value": "CC",
+              "description": "Cedula"
+            },
+            {
+              "id": 2,
+              "typed": "01",
+              "value": "PS",
+              "description": "Pasaporte"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a request for one Typed Value",
+      "providerState": "Has one Typed Value",
+      "request": {
+        "method": "GET",
+        "path": "/typedvalues/1",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "typedValue": {
+            "id": 1,
+            "typed": "01",
+            "value": "CC",
+            "description": "Cedula"
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}

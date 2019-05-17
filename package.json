@@ -4,7 +4,7 @@
   "description": "client for myLibrariesApi",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tetsts/TypedValueServiceClient.spec.js"
+    "test": "mocha test/TypedValueServiceClient.spec.js"
   },
   "repository": {
     "type": "git",

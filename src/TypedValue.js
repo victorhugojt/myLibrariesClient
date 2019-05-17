@@ -7,6 +7,8 @@ class TypedValue {
     }
 
     static fromJson(data) {
+        console.log('Data ::::::::::::: ');
+        console.log(data);
         return new TypedValue(data.id, data.typed, data.value, data.description);
     }
 
