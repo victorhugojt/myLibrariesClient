@@ -1,0 +1,34 @@
+{
+  "name": "mylibrariesclient",
+  "version": "1.0.0",
+  "description": "client for myLibrariesApi",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tetsts/TypedValueServiceClient.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victorhugojt/myLibrariesClient.git"
+  },
+  "keywords": [
+    "unitTest",
+    "api",
+    "client",
+    "pact"
+  ],
+  "author": "VictorHJ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/victorhugojt/myLibrariesClient/issues"
+  },
+  "homepage": "https://github.com/victorhugojt/myLibrariesClient#readme",
+  "dependencies": {
+    "@pact-foundation/pact": "^8.2.4",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4",
+    "path": "^0.12.7",
+    "request": "^2.88.0"
+  }
+}
