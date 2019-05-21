@@ -7,19 +7,19 @@ const TypedValue = require('../src/TypedValue');
 
 const expect = chai.expect;
 
-const MOCK_SERVER_PORT = 1234;
+const MOCK_SERVER_PORT = 4321;
 const BASE_URL = 'http://localhost';
 const SERVICE_URL = `${BASE_URL}:${MOCK_SERVER_PORT}`
 
 const expectedBodyTypedValuesList = {
     typedValues: [
-        {id: 1, typed: '01', value: 'CC', description: 'Cedula'},
-        {id: 2, typed: '01', value: 'PS', description: 'Pasaporte'}
+        {id: 1, type: '01', value: 'CC', description: 'Cedula'},
+        {id: 2, type: '01', value: 'PS', description: 'Pasaporte'}
     ]
 };
 
 const expectedBodyTypedValueGet = {
-    typedValue: {id: 1, typed: '01', value: 'CC', description: 'Cedula'}
+    typedValue: {id: 1, type: '01', value: 'CC', description: 'Cedula'}
 };
 
 chai.use(chaiAsPromised);
@@ -83,7 +83,6 @@ describe("Pact", () => {
       });
 
       it('successfully receives all Typed Values', (done) => {
-        //const typedValueServiceClient = new TypedValueServiceClient(SERVICE_URL);
         const verificationPromise = typedValueServiceClient.getAllTypedValues();
         const expectedTypedValues = [
             TypedValue.fromJson(expectedBodyTypedValuesList.typedValues[0]),
@@ -94,7 +93,6 @@ describe("Pact", () => {
       });
 
       it('successfully receives one Typed Value', (done) => {
-        //const typedValueServiceClient = new TypedValueServiceClient(SERVICE_URL);
         const verificationPromise = typedValueServiceClient.getTypedValueById(1);
         const expectedTypedValue = TypedValue.fromJson(expectedBodyTypedValueGet.typedValue);
 

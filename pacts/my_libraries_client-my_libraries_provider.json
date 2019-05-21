@@ -25,13 +25,13 @@
           "typedValues": [
             {
               "id": 1,
-              "typed": "01",
+              "type": "01",
               "value": "CC",
               "description": "Cedula"
             },
             {
               "id": 2,
-              "typed": "01",
+              "type": "01",
               "value": "PS",
               "description": "Pasaporte"
             }
@@ -57,7 +57,7 @@
         "body": {
           "typedValue": {
             "id": 1,
-            "typed": "01",
+            "type": "01",
             "value": "CC",
             "description": "Cedula"
           }
