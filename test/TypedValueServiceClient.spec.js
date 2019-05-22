@@ -1,26 +1,21 @@
 const path = require('path');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
-const { Pact } = require('@pact-foundation/pact')
+const { Pact, Matchers } = require('@pact-foundation/pact');
 const TypedValueServiceClient = require('../src/TypedValueServiceClient');
-const TypedValue = require('../src/TypedValue');
 
 const expect = chai.expect;
 
 const MOCK_SERVER_PORT = 4321;
+const MIN_TYPES_VALUES = 12;
 const BASE_URL = 'http://localhost';
 const SERVICE_URL = `${BASE_URL}:${MOCK_SERVER_PORT}`
-
-const expectedBodyTypedValuesList = {
-    typedValues: [
-        {id: 1, type: '01', value: 'CC', description: 'Cedula'},
-        {id: 2, type: '01', value: 'PS', description: 'Pasaporte'}
-    ]
-};
-
-const expectedBodyTypedValueGet = {
-    typedValue: {id: 1, type: '01', value: 'CC', description: 'Cedula'}
-};
+const { somethingLike: like, eachLike } = Matchers;
+const expectedBodyTyped = {id: like(1), type: like(1), value: like('CC'), description: like('Cedula')};
+const expectedBodyTypedValuesList = eachLike(expectedBodyTyped, {
+  min: MIN_TYPES_VALUES
+});
+const expectedBodyTypedValueGet = { typedValues: [{id: 13, type: 5, value: 'Cash', description: 'Cash'}] };
 
 chai.use(chaiAsPromised);
 
@@ -33,7 +28,7 @@ describe("Pact", () => {
       log: path.resolve(process.cwd(), 'logs', 'mockserver-integration.log'),
       dir: path.resolve(process.cwd(), 'pacts'),
       logLevel: "INFO",
-      spec: 2,
+      specification: 2,
   });
 
   before(async () => {
@@ -50,7 +45,7 @@ describe("Pact", () => {
           .setup()
           .then(() => {
             return provider.addInteraction({
-                state: 'Has two Typed Values',
+                state: 'Has twelve (12) Typed Values',
                 uponReceiving: 'a request for all typed values',
                 withRequest: {
                     method: 'GET',
@@ -60,16 +55,16 @@ describe("Pact", () => {
                 willRespondWith: {
                     status: 200,
                     headers: {'Content-Type': 'application/json'},
-                    body: expectedBodyTypedValuesList
+                    body: {typedValues: expectedBodyTypedValuesList}
                 }
             })
           .then(() => {
                 provider.addInteraction({
-                    state: 'Has one Typed Value',
+                    state: 'Has exactly one (1) Typed Value',
                     uponReceiving: 'a request for one Typed Value',
                     withRequest: {
                         method: 'GET',
-                        path: '/typedvalues/1',
+                        path: '/typedvalues/5',
                         headers: {'Accept': 'application/json'}
                     },
                     willRespondWith: {
@@ -82,21 +77,14 @@ describe("Pact", () => {
           });
       });
 
-      it('successfully receives all Typed Values', (done) => {
-        const verificationPromise = typedValueServiceClient.getAllTypedValues();
-        const expectedTypedValues = [
-            TypedValue.fromJson(expectedBodyTypedValuesList.typedValues[0]),
-            TypedValue.fromJson(expectedBodyTypedValuesList.typedValues[1])
-        ];
-
-        expect(verificationPromise).to.eventually.eql(expectedTypedValues).notify(done);
+      it('successfully receives all Typed Values', async () => {
+        const verificationPromise = await typedValueServiceClient.getAllTypedValues();
+        expect(verificationPromise.length).to.equal(MIN_TYPES_VALUES);
       });
 
-      it('successfully receives one Typed Value', (done) => {
-        const verificationPromise = typedValueServiceClient.getTypedValueById(1);
-        const expectedTypedValue = TypedValue.fromJson(expectedBodyTypedValueGet.typedValue);
-
-        expect(verificationPromise).to.eventually.eql(expectedTypedValue).notify(done);
+      it('successfully receives one Typed Value', async () => {
+        const verificationPromise = await typedValueServiceClient.getTypedValueById(5);
+        expect(verificationPromise[0]).to.have.property('value', 'Cash');
       });
     });
   });

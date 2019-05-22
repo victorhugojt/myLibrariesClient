@@ -8,7 +8,7 @@
   "interactions": [
     {
       "description": "a request for all typed values",
-      "providerState": "Has two Typed Values",
+      "providerState": "Has twelve (12) Typed Values",
       "request": {
         "method": "GET",
         "path": "/typedvalues",
@@ -25,26 +25,106 @@
           "typedValues": [
             {
               "id": 1,
-              "type": "01",
+              "type": 1,
               "value": "CC",
               "description": "Cedula"
             },
             {
-              "id": 2,
-              "type": "01",
-              "value": "PS",
-              "description": "Pasaporte"
+              "id": 1,
+              "type": 1,
+              "value": "CC",
+              "description": "Cedula"
+            },
+            {
+              "id": 1,
+              "type": 1,
+              "value": "CC",
+              "description": "Cedula"
+            },
+            {
+              "id": 1,
+              "type": 1,
+              "value": "CC",
+              "description": "Cedula"
+            },
+            {
+              "id": 1,
+              "type": 1,
+              "value": "CC",
+              "description": "Cedula"
+            },
+            {
+              "id": 1,
+              "type": 1,
+              "value": "CC",
+              "description": "Cedula"
+            },
+            {
+              "id": 1,
+              "type": 1,
+              "value": "CC",
+              "description": "Cedula"
+            },
+            {
+              "id": 1,
+              "type": 1,
+              "value": "CC",
+              "description": "Cedula"
+            },
+            {
+              "id": 1,
+              "type": 1,
+              "value": "CC",
+              "description": "Cedula"
+            },
+            {
+              "id": 1,
+              "type": 1,
+              "value": "CC",
+              "description": "Cedula"
+            },
+            {
+              "id": 1,
+              "type": 1,
+              "value": "CC",
+              "description": "Cedula"
+            },
+            {
+              "id": 1,
+              "type": 1,
+              "value": "CC",
+              "description": "Cedula"
             }
           ]
+        },
+        "matchingRules": {
+          "$.body.typedValues": {
+            "min": 12
+          },
+          "$.body.typedValues[*].*": {
+            "match": "type"
+          },
+          "$.body.typedValues[*].id": {
+            "match": "type"
+          },
+          "$.body.typedValues[*].type": {
+            "match": "type"
+          },
+          "$.body.typedValues[*].value": {
+            "match": "type"
+          },
+          "$.body.typedValues[*].description": {
+            "match": "type"
+          }
         }
       }
     },
     {
       "description": "a request for one Typed Value",
-      "providerState": "Has one Typed Value",
+      "providerState": "Has exactly one (1) Typed Value",
       "request": {
         "method": "GET",
-        "path": "/typedvalues/1",
+        "path": "/typedvalues/5",
         "headers": {
           "Accept": "application/json"
         }
@@ -55,12 +135,14 @@
           "Content-Type": "application/json"
         },
         "body": {
-          "typedValue": {
-            "id": 1,
-            "type": "01",
-            "value": "CC",
-            "description": "Cedula"
-          }
+          "typedValues": [
+            {
+              "id": 13,
+              "type": 5,
+              "value": "Cash",
+              "description": "Cash"
+            }
+          ]
         }
       }
     }

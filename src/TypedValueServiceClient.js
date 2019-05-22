@@ -19,10 +19,7 @@ class TypedValueServiceClient {
             request(options, (error, response, body) => {
                 if (!error && response.statusCode == 200) {
                     const parsedBody = JSON.parse(body);
-                    console.log('parsedBody ::::::::: >>>> ');
-                    console.log(parsedBody);
                     const result = parsedBody.typedValues.map((data) => TypedValue.fromJson(data));
-
                     resolve(result);
                 } else {
                     reject(error);
@@ -38,12 +35,12 @@ class TypedValueServiceClient {
                 url: this.endpoint + '/typedvalues/' + typedValueId,
                 headers: {'Accept': 'application/json'}
             };
-
+            console.log(options);
             request(options, (error, response, body) => {
                 if (!error && response.statusCode == 200) {
                     const parsedBody = JSON.parse(body);
-                    const result = TypedValue.fromJson(parsedBody.typedValue);
-
+                    console.log(parsedBody);
+                    const result = parsedBody.typedValues.map((data) => TypedValue.fromJson(data));
                     resolve(result);
                 } else {
                     reject(error);
@@ -52,6 +49,5 @@ class TypedValueServiceClient {
         });
     }
 }
-
 
 module.exports = TypedValueServiceClient;
