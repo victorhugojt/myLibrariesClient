@@ -40,7 +40,8 @@ class TypedValueServiceClient {
                 if (!error && response.statusCode == 200) {
                     const parsedBody = JSON.parse(body);
                     console.log(parsedBody);
-                    const result = parsedBody.typedValues.map((data) => TypedValue.fromJson(data));
+                    // const result = parsedBody.typedValues.map((data) => TypedValue.fromJson(data));
+                    const result = parsedBody.map((data) => TypedValue.fromJson(data));
                     resolve(result);
                 } else {
                     reject(error);

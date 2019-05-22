@@ -15,7 +15,8 @@ const expectedBodyTyped = {id: like(1), type: like(1), value: like('CC'), descri
 const expectedBodyTypedValuesList = eachLike(expectedBodyTyped, {
   min: MIN_TYPES_VALUES
 });
-const expectedBodyTypedValueGet = { typedValues: [{id: 13, type: 5, value: 'Cash', description: 'Cash'}] };
+//const expectedBodyTypedValueGet = { typedValues: [{id: 13, type: 5, value: 'Cash', description: 'Cash'}] };
+const expectedBodyTypedValueGet = [{id: 13, type: 5, value: 'Paypal', description: 'Paypal'}];
 
 chai.use(chaiAsPromised);
 
@@ -54,7 +55,7 @@ describe("Pact", () => {
                 },
                 willRespondWith: {
                     status: 200,
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {'Content-Type': 'application/json; charset=utf-8'},
                     body: {typedValues: expectedBodyTypedValuesList}
                 }
             })
@@ -69,7 +70,7 @@ describe("Pact", () => {
                     },
                     willRespondWith: {
                         status: 200,
-                        headers: {'Content-Type': 'application/json'},
+                        headers: {'Content-Type': 'application/json; charset=utf-8'},
                         body: expectedBodyTypedValueGet
                     }
                 }).then(() => done())
@@ -84,7 +85,7 @@ describe("Pact", () => {
 
       it('successfully receives one Typed Value', async () => {
         const verificationPromise = await typedValueServiceClient.getTypedValueById(5);
-        expect(verificationPromise[0]).to.have.property('value', 'Cash');
+        expect(verificationPromise[0]).to.have.property('value', 'Paypal');
       });
     });
   });
